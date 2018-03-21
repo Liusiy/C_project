@@ -1,11 +1,11 @@
 #include <stdio.h>
 
-#define CACL_NOT_EXIST -1
+#define CACL_PROC_NOT_EXIST -1
 
 #define SYS_OK 0
 #define SYS_ERROR -1
 
-typedef int (*funcP)(int, int);
+typedef int (*funcP)(const int, const int);
 
 /*define function*/
 int add(const int arg1, const int arg2)
@@ -45,29 +45,15 @@ funcP cacl_func(const char symbol)
 	}
 }
 
-int cacl_processor_one(const int arg1, const int arg2, const char symbol)
+funcP cacl_processor(const char symbol)
 {
-  int arg_final;
   funcP func_p;
   
   func_p = cacl_func(symbol);
   if (!func_p)
-	return CACL_NOT_EXIST;
-  
-  arg_final = cacl_func(symbol)(arg1, arg2);
-  return arg_final;
-}
-int cacl_processor_two(const int arg1, const int arg2, const char symbol)
-{
-  int arg_final;
-  funcP func_p;
+	return NULL;
 
-  func_p = cacl_func(symbol);
-  if (NULL == func_p)
-	return CACL_NOT_EXIST;
-  
-  arg_final = func_p(arg1, arg2);
-  return arg_final;
+  return func_p;
 }
 
 #define PRINT_OUTPUT \
@@ -77,6 +63,7 @@ int main()
 {
   int arg1, arg2, arg_final;
   char symbol;
+  funcP processor;
   printf("Please input arg1: ");
   scanf("%d", &arg1);
   printf("Please input arg2: ");
@@ -89,10 +76,11 @@ int main()
   scanf("%c", &symbol);
   printf(" %d\n", symbol);
   */
-  
-  arg_final = cacl_processor_one(arg1, arg2, symbol);
-  PRINT_OUTPUT;
-  arg_final = cacl_processor_two(arg1, arg2, symbol);
+  processor = cacl_processor(symbol);
+  if (NULL == processor)
+	return CACL_PROC_NOT_EXIST;
+
+  arg_final = processor(arg1, arg2);
   PRINT_OUTPUT;
 
   return SYS_OK;
