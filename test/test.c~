@@ -1,0 +1,14 @@
+#include <stdio.h>
+
+int main()
+{
+  char *p = "hello world!";
+  char *q = "BDCOM";
+#ifdef BDCOM
+  printf("%s \n", q);
+#else
+  printf("%s \n", p);
+#endif
+  printf("Nothing\n");
+  return 0;
+}

@@ -1,0 +1,15 @@
+CFLAGS := gcc
+CFLAGS += -DBDCOM
+CFLAGS += -DHELLO
+
+TARGET := test.o
+
+OBJECT := test.c
+
+$(TARGET):$(OBJECT)
+	@$(CFLAGS) -g $(OBJECT) -o $(TARGET)
+
+.PHONY:clean
+clean:
+	@erase *.o
+
