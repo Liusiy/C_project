@@ -1,0 +1,81 @@
+#include <stdio.h>
+
+#define CACL_NOT_EXIST -1
+
+#define SYS_OK 0
+#define SYS_ERROR -1
+
+typedef (*funcP)(int, int);
+
+/*define function*/
+int add(int arg1, int arg2)
+{
+  return arg1 + arg2;
+}
+
+int sub(int arg1, int arg2)
+{
+  return arg1 - arg2;
+}
+
+int mul(int arg1, int arg2)
+{
+  return arg1 * arg2;
+}
+
+int div(int arg1, int arg2)
+{
+  return arg1 / arg2;
+}
+
+funcP cacl_func(char symbol)
+{
+  switch(symbol)
+	{
+	case '+':
+	  return add;
+	case '-':
+	  return sub;
+	case '*':
+	  return mul;
+	case '/':
+	  return div;
+	default:
+	  return NULL;
+	}
+}
+
+int cacl_processor(int arg1, int arg2, char symbol)
+{
+  int arg_final;
+  funcP func_p;
+  
+  func_p = cacl_func(symbol);
+  if (!func_p)
+	return CACL_NOT_EXIST;
+  
+  arg_final = cacl_func(symbol)(arg1, arg2);
+  return arg_final;
+}
+
+#define PRINT_OUTPUT \
+{
+print("%d %c = %d", arg1, arg2, symbol)
+}
+
+int main()
+{
+  int arg1, arg2, arg_final;
+  char symbol;
+  printf("Please input arg1: ");
+  scanf("%d", arg1);
+  printf("Please input arg2: ");
+  scanf("%d", arg2);
+  printf("Please input symbol: ");
+  scanf("%c", symbol);
+
+  arg_final = cacl_processor(arg1, arg2, symbol);
+  PRINT_OUTPUT;
+
+  return SYS_OK;
+}
